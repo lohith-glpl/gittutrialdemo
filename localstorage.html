@@ -79,11 +79,23 @@
             const phone = document.getElementById('phone').value;
             const date = document.getElementById('seldate').value;
             const time = document.getElementById('seltime').value;
-            localStorage.setItem('name',name);
-            localStorage.setItem('Email',email);
-            localStorage.setItem('Phone',phone);
-            localStorage.setItem('Date',date)
-            localStorage.setItem('Time',time)
+
+            const newUser = {
+               name  : name,
+               email : email,
+               phone : phone,
+               date  : date,
+               time  : time
+            }
+
+            let myUser=JSON.stringify(newUser)
+            localStorage.setItem('User',myUser);
+            
+            // localStorage.setItem('name',name);
+            // localStorage.setItem('Email',email);
+            // localStorage.setItem('Phone',phone);
+            // localStorage.setItem('Date',date)
+            // localStorage.setItem('Time',time)
             // console.log('Name:', name);
             // console.log('Email:', email);
             // console.log('Phone:', phone);
