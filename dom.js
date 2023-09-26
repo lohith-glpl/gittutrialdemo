@@ -13,14 +13,14 @@ window.onload=()=>{
         // console.log(document.forms[0]);
         // console.log(document.links);
         // console.log(document.images);
-        var headerTitle=document.getElementById('header-title')
+        // var headerTitle=document.getElementById('header-title')
         // console.log(headerTitle)
         // headerTitle.textContent = 'Hello';
         // headerTitle.innerText = 'Goodbye';
         // headerTitle.innerHTML= '<h3>Hello</h3>';
 
-        var items = document.getElementsByClassName('list-group-item');
-        var header = document.getElementsByClassName('main-header');
+        // var items = document.getElementsByClassName('list-group-item');
+        // var header = document.getElementsByClassName('main-header');
         // console.log(items);
         // console.log(items[1]);
         // items[1].textContent='Hello 2';
@@ -55,5 +55,39 @@ window.onload=()=>{
 //         li[i].style.backgroundColor = "#f4f4f4"
 //  }
 
+// QUERYSELECTOR //
+
+// var header = document.querySelector('#main-header');
+// header.style.borderBottom = 'solid 4px #ccc';
+
+// var input = document.querySelector('input');
+// input.value = 'Hello World';
+
+// var submit = document.querySelector('input[type="submit"]');
+// submit.value = "SEND";
+
+// var item = document.querySelector('.list-group-item');
+// item.style.color = 'red';
+
+// var lastItem = document.querySelector('.list-group-item:last-child');
+// lastItem.style.color = 'blue';
+
+// var secondItem = document.querySelector('.list-group-item:nthchild(2)');
+// secondItem.style.color = 'coral';
+
+// QUERYSELECTORALL //
+
+var titles = document.querySelectorAll('.title');
+
+console.log(titles);
+titles[0].textContent = 'Hello' ;
+
+var odd = document.querySelectorAll('li:nth-child(odd)');
+var even = document.querySelectorAll('li:nth-child(even)');
+
+for (let i = 0; i < odd.length; i++) {
+       odd[i].style.backgroundColor = '#f4f4f4';
+       even[i].style.backgroundColor = '#ccc';     
+}
 
 }
