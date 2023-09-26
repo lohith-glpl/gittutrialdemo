@@ -94,11 +94,38 @@
             const userData = localStorage.getItem('User');
             const parsedUserData = JSON.parse(userData);
 
+            
+
 // Step 3: Display the data on the page
                 if (parsedUserData) {
-                    const userNameElement = document.getElementById('user');
+                    // const userNameElement = document.getElementById('user');
 
-                    userNameElement.textContent = parsedUserData.name+'-'+parsedUserData.email+'-' +parsedUserData.phone;
+                    // userNameElement.textContent = parsedUserData.name+'-'+parsedUserData.email+'-' +parsedUserData.phone;
+                    const parentDiv = document.getElementById('parentDiv');
+                    console.log(parentDiv)
+                    const childParagraph = document.createElement('li');
+                    childParagraph.textContent = parsedUserData.name+'-'+parsedUserData.email+'-' +parsedUserData.phone;
+                    parentDiv.appendChild(childParagraph);
+                    
+                    var deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+                    deleteBtn.appendChild(document.createTextNode('Delete'));
+
+                    childParagraph.appendChild(deleteBtn);
+                }
+
+                var itemList = document.getElementById('parentDiv');
+
+                itemList.addEventListener('click', removeItem);
+
+                    function removeItem(e){
+                    if(e.target.classList.contains('delete')){
+                        if(confirm('Are You Sure?')){
+                            var li = e.target.parentElement;
+                            itemList.removeChild(li);
+                            localStorage.removeItem('User');
+                        }
+                    }
                 }
             // localStorage.setItem('name',name);
             // localStorage.setItem('Email',email);
@@ -154,7 +181,9 @@
         <input type="submit" id ="sub-button" class="subut" value="Get a call">
     </form> 
     <div id="user">
-        
+        <ul id="parentDiv">
+
+        </ul>
     </div>
 </div>
 </body>
