@@ -89,9 +89,9 @@
             }
 
             let myUser=JSON.stringify(newUser)
-            localStorage.setItem('User',myUser);
+            localStorage.setItem(email,myUser);
 
-            const userData = localStorage.getItem('User');
+            const userData = localStorage.getItem(email);
             const parsedUserData = JSON.parse(userData);
 
             
@@ -107,24 +107,63 @@
                     childParagraph.textContent = parsedUserData.name+'-'+parsedUserData.email+'-' +parsedUserData.phone;
                     parentDiv.appendChild(childParagraph);
                     
+                    
                     var deleteBtn = document.createElement('button');
                     deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
                     deleteBtn.appendChild(document.createTextNode('Delete'));
 
+                    var editBtn = document.createElement('button');
+                    editBtn.className = 'btn btn-primary btn-sm edit';
+                    editBtn.appendChild(document.createTextNode('Edit'));
+
                     childParagraph.appendChild(deleteBtn);
+                    childParagraph.appendChild(editBtn);
                 }
 
                 var itemList = document.getElementById('parentDiv');
 
                 itemList.addEventListener('click', removeItem);
 
+                itemList.addEventListener('click', editItem);
+
                     function removeItem(e){
                     if(e.target.classList.contains('delete')){
                         if(confirm('Are You Sure?')){
-                            var li = e.target.parentElement;
-                            itemList.removeChild(li);
-                            localStorage.removeItem('User');
+                            var list = e.target.parentElement
+                            var li = e.target.parentElement.textContent;
+                            const parts = li.split('-');
+                            localStorage.removeItem(parts[1]);
+                            itemList.removeChild(list);
+                            
                         }
+                    }
+                }
+
+
+                function populateInputFields(emailpart) {
+            // Retrieve data from localStorage (replace 'userData' with your actual key)
+                    console.log("kkkkkkkkkkkkkkkkkkkk")
+                    const userData = JSON.parse(localStorage.getItem(emailpart));
+                    console.log(userData)
+                    // Check if data exists
+                    if (userData) {
+                        // Populate input fields
+                        document.getElementById('name').value = userData.name;
+                        document.getElementById('email').value = userData.email;
+                        document.getElementById('phone').value = userData.phone;
+                        document.getElementById('seldate').value = userData.date;
+                        document.getElementById('seltime').value = userData.time;
+                    }
+             }
+
+                function editItem(e){
+                    if(e.target.classList.contains('edit')){
+                        var list = e.target.parentElement
+                        var li = e.target.parentElement.textContent;
+                        const parts = li.split('-');
+                        populateInputFields(parts[1]);
+                        localStorage.removeItem(parts[1]);
+                        itemList.removeChild(list);
                     }
                 }
             // localStorage.setItem('name',name);
