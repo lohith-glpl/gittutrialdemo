@@ -90,7 +90,16 @@
 
             let myUser=JSON.stringify(newUser)
             localStorage.setItem('User',myUser);
-            
+
+            const userData = localStorage.getItem('User');
+            const parsedUserData = JSON.parse(userData);
+
+// Step 3: Display the data on the page
+                if (parsedUserData) {
+                    const userNameElement = document.getElementById('user');
+
+                    userNameElement.textContent = parsedUserData.name+'-'+parsedUserData.email+'-' +parsedUserData.phone;
+                }
             // localStorage.setItem('name',name);
             // localStorage.setItem('Email',email);
             // localStorage.setItem('Phone',phone);
@@ -140,18 +149,13 @@
                     <input type="time" id="seltime" class="form-control" name="appt">
             
             </div>  
-      
-       </div>
-        
-
-     
-
-       
-
     
-       
+       </div>
         <input type="submit" id ="sub-button" class="subut" value="Get a call">
     </form> 
+    <div id="user">
+        
+    </div>
 </div>
 </body>
 </html>
