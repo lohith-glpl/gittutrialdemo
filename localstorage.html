@@ -88,7 +88,7 @@
 
                             res.data.forEach((expense, index) => {
                             // Create HTML elements to display each expense
-                            console.log(expense)
+                            // console.log(expense)
                             const parentDiv = document.getElementById('parentDiv');
                             const childParagraph = document.createElement('li');
                             childParagraph.setAttribute('data-id', expense._id);
@@ -117,10 +117,10 @@
 
                     itemList.addEventListener('click', removeItem);
 
-                    // itemList.addEventListener('click', editItem);
+                    itemList.addEventListener('click', editItem);
                  
 
-                        function removeItem(e){
+                    function removeItem(e){
                         if(e.target.classList.contains('delete')){
                             if(confirm('Are You Sure?')){
                                 const listItem = e.target.closest('li');
@@ -132,12 +132,50 @@
                                 
                                 axios.delete(`https://crudcrud.com/api/0ad8c4c5b9fe428c8bf889ad42c07b86/appiontmentData/${itemId}`).then((res)=>{
                                         console.log(res);
-                                        }).catch((err)=>{
+                                    }).catch((err)=>{
                                         console.log(err);
-                                        })
+                                    })
                             }
                         }
                     }
+
+                 function populateInputFields(descpart) {
+                    // const userData = JSON.parse(localStorage.getItem(descpart));
+                     // console.log(userData);
+                    //  Check if data exists
+                    if (descpart) {
+                     // Populate input fields
+                        document.getElementById('expense').value = descpart.expense;
+                        document.getElementById('desc').value = descpart.desc;
+                        document.getElementById('categorySelect').value=descpart.cat;
+                        document.getElementById('seldate').value=descpart.date;
+                        document.getElementById('seltime').value=descpart.time;
+
+                        const editItemIdInput = document.getElementById('editItemId');
+                       editItemIdInput.value = descpart._id;
+                    }
+                }
+
+                    function editItem(e){
+                    if(e.target.classList.contains('edit')){
+                        const listItem = e.target.closest('li');
+                        const itemId = listItem.getAttribute('data-id');
+                        let edit=null;
+                        axios.get('https://crudcrud.com/api/0ad8c4c5b9fe428c8bf889ad42c07b86/appiontmentData').then((res)=>{
+
+                            edit=res.data.find(data=>data._id===itemId);
+                            console.log(edit);
+                             populateInputFields(edit);
+                            }).catch((err)=>{
+
+                            console.log(err);
+                            })
+
+                      
+                        // localStorage.removeItem(parts[1]);
+                        // itemList.removeChild(list);
+                    }
+                }
 
                 
               
@@ -153,6 +191,8 @@
             const category = document.getElementById('categorySelect').value;
             const date = document.getElementById('seldate').value;
             const time = document.getElementById('seltime').value;
+            const editItemId = document.getElementById('editItemId').value;
+            console.log(editItemId)
 
             const newExpense = {
                expense  : expense,
@@ -168,50 +208,26 @@
             // const userData = localStorage.getItem(desc);
             // const parsedUserData = JSON.parse(userData);
 
-                  axios.post('https://crudcrud.com/api/0ad8c4c5b9fe428c8bf889ad42c07b86/appiontmentData',newExpense).then((res)=>{
+          
+            if(editItemId){
 
-                    console.log(res);
-                    
+                axios.put(`https://crudcrud.com/api/0ad8c4c5b9fe428c8bf889ad42c07b86/appiontmentData/${editItemId}`,newExpense).then((res)=>{
+                console.log(res);
+                }).catch((err)=>{
+                console.log(err);
+                })
+            }else{
+                
+                axios.post('https://crudcrud.com/api/0ad8c4c5b9fe428c8bf889ad42c07b86/appiontmentData',newExpense).then((res)=>{
+
+                console.log(res);
+
                 }).catch((err)=>{
 
-                    console.log(err);
+                console.log(err);
                 })
-
-// Step 3: Display the data on the page
-                // if (parsedUserData) {
-                //     // const userexpenseElement = document.getElementById('user');
-
-                //     // userexpenseElement.textContent = parsedUserData.expense+'-'+parsedUserData.desc+'-' +parsedUserData.phone;
-                //      const parentDiv = document.getElementById('parentDiv');
-                //     const childParagraph = document.createElement('li');
-                //     childParagraph.textContent = ` ${parsedUserData.expense}-${parsedUserData.desc}-${parsedUserData.date}-${parsedUserData.time}`;
-                //     parentDiv.appendChild(childParagraph);
-                //     var deleteBtn = document.createElement('button');
-                //     deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
-                //     deleteBtn.appendChild(document.createTextNode('Delete'));
-
-                //     var editBtn = document.createElement('button');
-                //     editBtn.className = 'btn btn-primary btn-sm edit';
-                //     editBtn.appendChild(document.createTextNode('Edit'));
-
-                //     childParagraph.appendChild(deleteBtn);
-                //     childParagraph.appendChild(editBtn);
-                // }
-
-             
-
-
-              
-            // localStorage.setItem('expense',expense);
-            // localStorage.setItem('desc',desc);
-            // localStorage.setItem('Phone',phone);
-            // localStorage.setItem('Date',date)
-            // localStorage.setItem('Time',time)
-            // console.log('expense:', expense);
-            // console.log('desc:', desc);
-            // console.log('Phone:', phone);
-            // console.log('Date:', date);
-            // console.log('Time:', time);
+            }
+                
         }
     </script>
     <div class="container">
@@ -242,7 +258,7 @@
               </select>
           </div>
         
-          
+          <input type="hidden" id="editItemId" name="editItemId">
             <div class="col-12 mt-3">
                 <label for="fexpense"  class="form-label" >Date of expense:</label>
                     <div class="input-group">
