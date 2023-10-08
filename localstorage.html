@@ -91,6 +91,8 @@
                             console.log(expense)
                             const parentDiv = document.getElementById('parentDiv');
                             const childParagraph = document.createElement('li');
+                            childParagraph.setAttribute('data-id', expense._id);
+
                             childParagraph.textContent = `${expense.expense}-${expense.desc}-${expense.date}-${expense.time}`;
                             parentDiv.appendChild(childParagraph);
                             var deleteBtn = document.createElement('button');
@@ -109,6 +111,33 @@
 
                     console.log(err);
                 })
+
+                var itemList = document.getElementById('parentDiv');
+             
+
+                    itemList.addEventListener('click', removeItem);
+
+                    // itemList.addEventListener('click', editItem);
+                 
+
+                        function removeItem(e){
+                        if(e.target.classList.contains('delete')){
+                            if(confirm('Are You Sure?')){
+                                const listItem = e.target.closest('li');
+                                 const itemId = listItem.getAttribute('data-id');
+                                // const parts = li.split('-');
+                                console.log(itemId);
+                                // localStorage.removeItem(parts[1]);
+                                // itemList.removeChild(list);
+                                
+                                axios.delete(`https://crudcrud.com/api/0ad8c4c5b9fe428c8bf889ad42c07b86/appiontmentData/${itemId}`).then((res)=>{
+                                        console.log(res);
+                                        }).catch((err)=>{
+                                        console.log(err);
+                                        })
+                            }
+                        }
+                    }
 
                 
               
