@@ -111,32 +111,7 @@
                 })
 
                 
-                var itemList = document.getElementById('parentDiv');
-                console.log(itemList);
-
-                    itemList.addEventListener('click', removeItem);
-
-                    function removeItem(e){
-                        if(e.target.classList.contains('delete')){
-                            if(confirm('Are You Sure?')){
-                                // var list = e.target.parentElement
-                                // var li = e.target.parentElement.textContent;
-                                // const parts = li.split('-');
-                                // console.log(parts);
-                                // localStorage.removeItem(parts[1]);
-                                // itemList.removeChild(list);
-                                axios.post('https://crudcrud.com/api/0ad8c4c5b9fe428c8bf889ad42c07b86/appiontmentData',newExpense).then((res)=>{
-
-                                    console.log(res);
-
-                                    }).catch((err)=>{
-
-                                    console.log(err);
-                                    })
-                                
-                            }
-                        }
-                    }
+              
                 
 }
 
